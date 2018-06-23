@@ -15,64 +15,12 @@ Módulo com métodos responsáveis por executar a validação K-Fold Cross-Valid
 
 
 # Módulos necessários
-from arvore import get_raiz_do_conjunto, get_classe_majoritaria, monta_arvore
+from arvore import get_raiz_do_conjunto, get_classe_majoritaria, monta_arvore, get_acuracia, get_erro
 from preProcessamento import trata_conjunto
 from manipulacaoArquivos import write_arvore_no_arquivo, write_conjunto_no_arquivo
 from sklearn.utils import shuffle
 
 import math
-
-
-
-def verifica_exemplo_no_modelo(exemplo, arvore):
-    """
-    Testa o @exemplo dado o modelo treinado na @arvore
-    """
-
-    nome = arvore.name
-
-    if(arvore.is_leaf):
-        return arvore.classe_major
-
-    for item in arvore.children:
-        if(exemplo[nome] == item.attribute):
-            return verifica_exemplo_no_modelo(
-                exemplo=exemplo,
-                arvore=item
-            )
-
-
-
-def get_acuracia(conjunto, modelo):
-    """
-    Executa o teste do @conjunto diante do @modelo recuperando a acurácia
-    """
-
-    acertos = 0
-
-    for indice, linha in conjunto.iterrows():
-        predicao = verifica_exemplo_no_modelo(linha, modelo)
-        valor_correto = linha['label'].replace('.', '').strip()
-
-        if(predicao == valor_correto):
-            acertos = acertos + 1
-
-    n_elementos = len(conjunto)
-    pct_acertos = acertos / n_elementos
-    return pct_acertos
-
-
-
-def get_erro(conjunto, arvore):
-    """
-    Retorna o erro do @conjunto diante do modelo treinado na @arvore
-    """
-
-    if(len(conjunto) <= 0):
-        return 0
-
-    erro_deste_teste = 1 - get_acuracia(conjunto=conjunto, modelo=arvore)
-    return erro_deste_teste
 
 
 
@@ -152,7 +100,10 @@ def cross_validation(arquivo_entrada, numero_de_folds=10, deve_gerar_arquivos=Tr
             conjunto_teste=conjunto_teste,
             raiz=raiz,
             nome_da_raiz=raiz.name,
-            classe_majoritaria=major_class
+            classe_majoritaria=major_class,
+            arquivo_saida_treinamento='',
+            arquivo_saida_testes='',
+            deve_testar_enquanto_monta=False
         )
 
         # Recupera o erro dessa interação

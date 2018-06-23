@@ -36,3 +36,9 @@ def write_conjunto_no_arquivo(conjunto, arquivo, encoding='utf-8'):
     Escreve o @conjunto no @arquivo usando o @encoding
     """
     conjunto.to_csv(arquivo, encoding=encoding, index=False)
+
+
+
+def write_saida(acuracia, arquivo, numero_nos):
+    with open(arquivo, 'a') as obj_file:
+        obj_file.write('{0}, {1}'.format(acuracia, numero_nos) + '\n')

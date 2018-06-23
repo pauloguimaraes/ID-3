@@ -16,6 +16,7 @@ Módulo responsável por trabalhar com a estrutura da árvore
 # Módulos necessários
 from anytree import Node
 from calculos import ganho
+from manipulacaoArquivos import write_saida
 
 
 
@@ -32,7 +33,7 @@ def get_numero_de_nos(arvore):
             continue
         quantidade = quantidade + 1
 
-    return quantidade
+    return quantidade + 1
 
 
 
@@ -107,8 +108,7 @@ def get_raiz_do_conjunto(conjunto):
     return Node(
         name=raiz,
         attribute=None,
-        classe_major=classe_majoritaria,
-        parent=None
+        classe_major=classe_majoritaria
     )
 
 
@@ -134,7 +134,66 @@ def get_classe_majoritaria(conjunto):
 
 
 
-def monta_arvore(conjunto_completo, conjunto_atual, conjunto_teste, raiz, nome_da_raiz, classe_majoritaria):
+def verifica_exemplo_no_modelo(exemplo, arvore):
+    """
+    Testa o @exemplo dado o modelo treinado na @arvore
+    """
+
+    nome = arvore.name
+
+    if(arvore.is_leaf):
+        return arvore.classe_major
+
+    for item in arvore.children:
+        if(exemplo[nome].strip() == item.attribute.strip()):
+            
+            return verifica_exemplo_no_modelo(
+                exemplo=exemplo,
+                arvore=item
+            )
+        else:
+            continue
+        
+    # Se não encontrou nenhum valor
+    # Retorna a classe majoritária da raiz
+    return get_raiz_da_arvore(arvore).classe_major
+
+
+
+def get_acuracia(conjunto, modelo):
+    """
+    Executa o teste do @conjunto diante do @modelo recuperando a acurácia
+    """
+
+    acertos = 0
+
+    for indice, linha in conjunto.iterrows():
+        predicao = verifica_exemplo_no_modelo(linha, modelo)
+        valor_correto = linha['label'].replace('.', '').strip()
+
+        if(predicao == valor_correto):
+            acertos = acertos + 1
+
+    n_elementos = len(conjunto)
+    pct_acertos = acertos / n_elementos
+    return pct_acertos
+
+
+
+def get_erro(conjunto, arvore):
+    """
+    Retorna o erro do @conjunto diante do modelo treinado na @arvore
+    """
+
+    if(len(conjunto) <= 0):
+        return 0
+
+    erro_deste_teste = 1 - get_acuracia(conjunto=conjunto, modelo=arvore)
+    return erro_deste_teste
+
+
+
+def monta_arvore(conjunto_completo, conjunto_atual, conjunto_teste, raiz, nome_da_raiz, classe_majoritaria, arquivo_saida_treinamento, arquivo_saida_testes, deve_testar_enquanto_monta=False):
     """
     Monta recursivamente uma árvore de decisão para o @conjunto_atual.
 
@@ -149,6 +208,36 @@ def monta_arvore(conjunto_completo, conjunto_atual, conjunto_teste, raiz, nome_d
     conjunto_de_valores_possiveis = set(conjunto_completo[nome_da_raiz])
 
 
+    # Se deve montar testando a árvore
+    if(deve_testar_enquanto_monta):
+        # Recupera a raiz
+        raiz_temp = get_raiz_da_arvore(raiz)
+
+        # Mensura a acurácia para o conjunto de treinamento
+        acuracia_treinamento = get_acuracia(
+            conjunto=conjunto_completo,
+            modelo=raiz_temp
+        )
+
+        # Mensura a acurácia para o conjunto de testes
+        acuracia_testes = get_acuracia(
+            conjunto=conjunto_teste,
+            modelo=raiz_temp
+        )
+
+        # Escreve nos arquivos de saída
+        write_saida(
+            acuracia=acuracia_testes,
+            arquivo=arquivo_saida_testes,
+            numero_nos=get_numero_de_nos(raiz_temp)
+        )
+
+        write_saida(
+            acuracia=acuracia_treinamento,
+            arquivo=arquivo_saida_treinamento,
+            numero_nos=get_numero_de_nos(raiz_temp)
+        )
+    
     # Para todos os valores possíveis que o atributo possa assumir
     for valor in conjunto_de_valores_possiveis:
 
@@ -174,7 +263,7 @@ def monta_arvore(conjunto_completo, conjunto_atual, conjunto_teste, raiz, nome_d
             Node(
                 name='',
                 attribute=valor,
-                classe_major=raiz.classe_major,
+                classe_major=classe_majoritaria,
                 parent=raiz
             )
 
@@ -221,9 +310,12 @@ def monta_arvore(conjunto_completo, conjunto_atual, conjunto_teste, raiz, nome_d
                     conjunto_teste=conjunto_teste,
                     raiz=no,
                     nome_da_raiz=no.name,
-                    classe_majoritaria=classe_majoritaria
+                    classe_majoritaria=classe_majoritaria,
+                    arquivo_saida_treinamento=arquivo_saida_treinamento,
+                    arquivo_saida_testes=arquivo_saida_testes,
+                    deve_testar_enquanto_monta=deve_testar_enquanto_monta
                 )
-
+                
             # Se existem elementos nesse subconjunto retorna a classe majoritária
             elif(len(conjunto_temporario) > 0):
                 classe_majoritaria = get_classe_majoritaria(conjunto_temporario)
@@ -240,7 +332,7 @@ def monta_arvore(conjunto_completo, conjunto_atual, conjunto_teste, raiz, nome_d
                 Node(
                     name='',
                     attribute=valor,
-                    classe_majoritaria=raiz.classe_majoritaria,
+                    classe_major=classe_majoritaria,
                     parent=raiz
                 )
 

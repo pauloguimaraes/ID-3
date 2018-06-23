@@ -1,6 +1,39 @@
 from arvore import get_classe_majoritaria, get_raiz_do_conjunto, monta_arvore
-from preProcessamento import trata_conjunto
 from manipulacaoArquivos import write_arvore_no_arquivo
+from preProcessamento import trata_conjunto
+from sklearn.utils import shuffle
+
+
+
+
+def quebrar_conjunto(arquivo_entrada):
+    """
+    Quebra o conjunto presente no @arquivo_entrada em conjunto de treinamento, validação e testes
+    """
+
+    # Limpa e discretiza
+    conjunto = trata_conjunto(
+        arquivo_entrada=arquivo_entrada,
+        char_a_remover='?',
+        numero_de_grupos=3
+    )
+    conjunto = shuffle(conjunto)
+
+    # Quebra o conjunto de dados
+    quebrar_em = 3
+    tamanho_particao = len(conjunto) / quebrar_em
+    lista_de_conjuntos = [quebrar_em]
+
+    i = 0
+    while(i < quebrar_em):
+        inicio = int((i * tamanho_particao))
+        fim = int(((tamanho_particao * (i + 1)) - 1))
+
+        lista_de_conjuntos.insert(i, conjunto.iloc[inicio : fim])
+
+        i = i + 1
+
+    return lista_de_conjuntos[0], lista_de_conjuntos[1], lista_de_conjuntos[2]
 
 
 

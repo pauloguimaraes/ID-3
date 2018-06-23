@@ -1,3 +1,6 @@
 play_tennis/*
 __pycache__/*
 cross-validation/*
+gera-grafico/*
+teste_saida.csv
+treinamento_saida.csv
