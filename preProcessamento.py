@@ -57,7 +57,7 @@ def remove_missing_values(arquivo_entrada, arquivo_saida, char='?', encoding='ut
 
     for indice, linha in conjunto.iterrows():
         for coluna in conjunto:
-            conjunto[coluna].at[indice] = str(conjunto[coluna].at[indice].strip())
+            conjunto[coluna].at[indice] = str(conjunto[coluna].at[indice]).strip()
 
             if(conjunto[coluna].iloc[indice] == char):
                 linhas_a_remover.append(indice)

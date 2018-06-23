@@ -28,3 +28,11 @@ def write_arvore_no_arquivo(arvore, arquivo):
 
     with open(arquivo, 'w') as obj_file:
         obj_file.write(json)
+
+
+
+def write_conjunto_no_arquivo(conjunto, arquivo, encoding='utf-8'):
+    """
+    Escreve o @conjunto no @arquivo usando o @encoding
+    """
+    conjunto.to_csv(arquivo, encoding=encoding, index=False)
