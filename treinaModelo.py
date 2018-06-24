@@ -1,3 +1,19 @@
+"""
+Exercício de Programação de Inteligência Artificial
+Professora Doutora Patrícia Rufino Oliveira
+
+Autores:
+Lucas Borelli Amaral                9360951
+Paulo Henrique Freitas Guimarães    9390361
+Silas Rocha Pereira                 9424079
+Victor Taendy Sousa                 8921421
+
+Módulo responsável pelos métodos de pré-processamento do conjunto de dados
+"""
+
+
+
+# Módulos necessários
 from arvore import get_classe_majoritaria, get_raiz_do_conjunto, monta_arvore
 from manipulacaoArquivos import write_arvore_no_arquivo
 from preProcessamento import trata_conjunto
@@ -38,6 +54,10 @@ def quebrar_conjunto(arquivo_entrada):
 
 
 def treina(arquivo_entrada, arvore_gerada):
+    """
+    Treina o conjunto de dados presente @arquivo_entrada.
+    Salva o modelo na @arvore_gerada
+    """
     conjunto = trata_conjunto(
         arquivo_entrada=arquivo_entrada,
         char_a_remover='?',
@@ -56,7 +76,10 @@ def treina(arquivo_entrada, arvore_gerada):
         conjunto_teste=conjunto,
         raiz=raiz,
         nome_da_raiz=raiz.name,
-        classe_majoritaria=classe_majoritaria
+        classe_majoritaria=classe_majoritaria,
+        arquivo_saida_testes='',
+        arquivo_saida_treinamento='',
+        deve_testar_enquanto_monta=False
     )
 
     write_arvore_no_arquivo(
@@ -65,3 +88,5 @@ def treina(arquivo_entrada, arvore_gerada):
     )
 
     return raiz
+
+

@@ -150,4 +150,3 @@ def cross_validation(arquivo_entrada, numero_de_folds=10, deve_gerar_arquivos=Tr
     return erro_medio
 
 
-

@@ -18,7 +18,9 @@ import sys, getopt
 from crossValidation import cross_validation
 
 
+
 def main(argv):
+    # pylint: disable=W0612
     """
     Função de execução
     """

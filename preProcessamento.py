@@ -45,6 +45,7 @@ def trata_conjunto(arquivo_entrada, char_a_remover='?', numero_de_grupos=3):
 
 
 def remove_missing_values(arquivo_entrada, arquivo_saida, char='?', encoding='utf-8'):
+    # pylint: disable=W0612
     """
     Método que remove os missing values do conjunto de entrada.
 
@@ -119,3 +120,5 @@ def discretiza(arquivo_entrada, arquivo_saida, numero_de_grupos):
         arquivo_entrada=arquivo_saida,
         arquivo_saida=arquivo_saida
     )
+
+

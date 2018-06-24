@@ -13,6 +13,7 @@ Módulo para cálculo de entropia e ganho para atributos
 
 
 
+# Módulos necessários
 import math
 
 
