@@ -14,8 +14,9 @@ Execução do Cross-Validation para um determinado conjunto de dados
 
 
 # Módulos necessários
-import sys, getopt
 from crossValidation import cross_validation
+
+import sys, getopt
 
 
 

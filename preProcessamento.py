@@ -111,7 +111,7 @@ def discretiza(arquivo_entrada, arquivo_saida, numero_de_grupos):
     conjunto = Orange.data.Table(arquivo_entrada)
 
     discretizacao_obj = Orange.preprocess.Discretize()
-    discretizacao_obj.method = Orange.preprocess.discretize.EqualFreq(n=3)
+    discretizacao_obj.method = Orange.preprocess.discretize.EqualFreq(n=numero_de_grupos)
     
     conjunto_discretizado = discretizacao_obj(conjunto)
     Orange.data.Table.save(conjunto_discretizado, arquivo_saida)

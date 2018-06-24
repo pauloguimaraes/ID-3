@@ -4,3 +4,5 @@ cross-validation/*
 gera-grafico/*
 teste_saida.csv
 treinamento_saida.csv
+validacao.csv
+testes.csv

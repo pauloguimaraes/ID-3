@@ -22,7 +22,6 @@ def write_arvore_no_arquivo(arvore, arquivo):
     """
     Escreve a @arvore no @arquivo
     """
-
     exporter = JsonExporter(indent=2, sort_keys=True)
     json = exporter.export(arvore)
 

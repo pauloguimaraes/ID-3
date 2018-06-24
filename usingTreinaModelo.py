@@ -1,8 +1,31 @@
-import sys, getopt
+"""
+Exercicio de Programacao de Inteligencia Artificial
+Professora Doutora Patricia Rufino Oliveira
+
+Autores:
+Lucas Borelli Amaral                9360951
+Paulo Henrique Freitas Guimaraes    9390361
+Silas Rocha Pereira da Silva        9424079
+Victor Taendy Sousa Emerenciano     8921412
+
+Treina o modelo presente no arquivo passado como parâmetro
+Usado, principalmente, para o PlayTennis
+"""
+
+
+
+# Módulos necessários
 from treinaModelo import treina
+
+import sys, getopt
+
 
 
 def main(argv):
+    # pylint: disable=W0612
+    """
+    Função de execução
+    """
     inputfile = ''
     outputfile = ''
 
@@ -24,10 +47,11 @@ def main(argv):
         elif(opt in ('-o', '--ofile')):
             outputfile = arg
 
-        raiz = treina(
-            arquivo_entrada=inputfile,
-            arvore_gerada=outputfile+'.json'
-        )
+    # Treina a árvore, salvando no arquivo de saída
+    raiz = treina(
+        arquivo_entrada=inputfile,
+        arvore_gerada=outputfile+'.json'
+    )
 
 
 if(__name__ == '__main__'):

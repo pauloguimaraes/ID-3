@@ -194,7 +194,7 @@ def get_erro(conjunto, arvore):
 
 
 
-def monta_arvore(conjunto_completo, conjunto_atual, conjunto_teste, raiz, nome_da_raiz, classe_majoritaria, arquivo_saida_treinamento, arquivo_saida_testes, deve_testar_enquanto_monta=False):
+def monta_arvore(conjunto_completo, conjunto_atual, conjunto_teste, raiz, nome_da_raiz, classe_majoritaria, arquivo_saida_treinamento='', arquivo_saida_testes='', deve_testar_enquanto_monta=False):
     """
     Monta recursivamente uma árvore de decisão para o @conjunto_atual.
 

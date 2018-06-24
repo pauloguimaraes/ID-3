@@ -1,3 +1,15 @@
+"""
+Exercício de Programação de Inteligência Artificial
+Professora Doutora Patrícia Rufino Oliveira
+
+Autores:
+Lucas Borelli Amaral                9360951
+Paulo Henrique Freitas Guimarães    9390361
+Silas Rocha Pereira                 9424079
+Victor Taendy Sousa                 8921421
+
+Módulo com métodos relacionados à poda (Reduced-Error Prunning)
+"""
 
 
 
@@ -7,9 +19,9 @@ from arvore import get_classe_majoritaria, get_erro, is_no_de_decisao, get_numer
 
 
 
-def poda(no, validacao, teste, classe_majoritaria):
+def poda(no, validacao, classe_majoritaria):
     """
-    Efetua a remoção do @no e o teste com os conjuntos de @teste e @validacao.
+    Efetua a remoção do @no e o teste com os conjuntos de @validacao.
 
     Usa a @classe_majoritaria do subconjunto de validação para definir a classe do novo nó folha
     Caso o conjunto esteja vazio usa a classe majoritária do nó pai.
@@ -32,7 +44,7 @@ def poda(no, validacao, teste, classe_majoritaria):
 
     # Calcula o erro
     raiz = get_raiz_da_arvore(no)
-    erro_pos_poda_teste = get_erro(conjunto=teste, arvore=raiz)
+    erro_pos_poda_validacao = get_erro(conjunto=validacao, arvore=raiz)
     
     # Realoca os filhos para o nó
     # O nó somente será removido de fato mais para frente
@@ -42,7 +54,7 @@ def poda(no, validacao, teste, classe_majoritaria):
     no.classe_major = antiga_major
 
     # Retorna-se o erro pós-poda e a nova classe majoritária desse nó
-    return [erro_pos_poda_teste, major]
+    return [erro_pos_poda_validacao, major]
 
 
 
@@ -75,7 +87,6 @@ def get_erros_para_a_arvore(raiz, validacao, testes, erros=dict(), novas_classes
             resultado = poda(
                 no=filho,
                 validacao=subconjunto_validacao,
-                teste=testes,
                 classe_majoritaria=classe_majoritaria_validacao
             )
             erros[filho]=resultado[0]
@@ -121,8 +132,8 @@ def efetua_poda(raiz, validacao, testes, deve_escrever_arquivo=True, saida_teste
     validacao_completo = validacao
 
     # Entquanto o menor erro encontrado for menor que o erro pré-poda deve-se podar
-    while(menor_erro_valor <= erro_pre_poda_teste):
-        print('Erro pré-poda: {0}'.format(erro_pre_poda_teste))
+    while(menor_erro_valor <= erro_pre_poda_validacao):
+        print('Erro pré-poda: {0}'.format(erro_pre_poda_validacao))
 
         erros = dict()
         novas_classes_majoritarias = dict()
@@ -148,7 +159,7 @@ def efetua_poda(raiz, validacao, testes, deve_escrever_arquivo=True, saida_teste
         # Percorre todos os erros
         for no, valor in erros_ordenados:
             # Se for menor que o erro pré-poda remove
-            if(valor <= erro_pre_poda_teste):
+            if(valor <= erro_pre_poda_validacao):
                 raiz = remove_no(no, novas_classes_majoritarias[no])
         
         # Calcula o erro pós poda para validação e teste
@@ -158,7 +169,8 @@ def efetua_poda(raiz, validacao, testes, deve_escrever_arquivo=True, saida_teste
 
         # O novo erro pré-poda é o erro pós-poda calculado
         erro_pre_poda_teste = erro_pos_poda_teste
-        print('Erro pós-poda: {0}'.format(erro_pos_poda_teste))
+        erro_pre_poda_validacao = erro_pos_poda_validacao
+        print('Erro pós-poda: {0}'.format(erro_pos_poda_validacao))
 
         # Escreve a poda no arquivo de acurácia
         if(deve_escrever_arquivo):

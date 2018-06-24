@@ -15,9 +15,9 @@ Módulo com métodos responsáveis por executar a validação K-Fold Cross-Valid
 
 
 # Módulos necessários
-from arvore import get_raiz_do_conjunto, get_classe_majoritaria, monta_arvore, get_acuracia, get_erro
-from preProcessamento import trata_conjunto
+from arvore import get_acuracia, get_classe_majoritaria, get_erro, get_raiz_do_conjunto, monta_arvore
 from manipulacaoArquivos import write_arvore_no_arquivo, write_conjunto_no_arquivo
+from preProcessamento import trata_conjunto
 from sklearn.utils import shuffle
 
 import math
