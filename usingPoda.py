@@ -4,6 +4,7 @@
 from datetime import datetime
 from treinaModelo import quebrar_conjunto
 from arvore import get_raiz_do_conjunto, get_classe_majoritaria, monta_arvore
+from poda import efetua_poda
 import sys, getopt
 
 
@@ -78,6 +79,8 @@ def main(argv):
     )
 
     print('Fim da montagem da árvore: {0}'.format(datetime.now()))
+
+    raiz = efetua_poda(raiz=raiz, validacao=validacao, testes=teste, deve_escrever_arquivo=True, saida_validacao='./validacao.csv', saida_teste='./testes.csv')
 
 
 

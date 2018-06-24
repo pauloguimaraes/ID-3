@@ -338,3 +338,15 @@ def monta_arvore(conjunto_completo, conjunto_atual, conjunto_teste, raiz, nome_d
                 )
 
 
+
+def remove_no(no, nova_classe):
+    """
+    Remove o @no de sua arvore, colocando um novo com a @nova_classe no lugar
+    """
+
+    novo_no = Node(name='', parent=no.parent, classe_major=nova_classe, attribute=no.attribute)
+    no.parent = None
+
+    return get_raiz_da_arvore(novo_no)
+
+

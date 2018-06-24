@@ -92,3 +92,5 @@ def ganho(conjunto, atributo, rotulo):
     
     ganho_para_atributo = entropia(conjunto=conjunto, rotulo=atributo) - ganho_para_atributo
     return ganho_para_atributo
+
+
