@@ -161,6 +161,7 @@ def verifica_exemplo_no_modelo(exemplo, arvore):
 
 
 def get_acuracia(conjunto, modelo):
+    # pylint: disable=W0612
     """
     Executa o teste do @conjunto diante do @modelo recuperando a acurácia
     """
