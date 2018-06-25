@@ -42,7 +42,7 @@ def main(argv):
         sys.exit(2)
 
     for opt, arg in opts:
-        if('opt' == '-h'):
+        if(opt == '-h'):
             print('usingCrossValidation.py -i <inputfile> -d <datasetspath> -t <treespath>\n')
             print('Os parâmetros <datasetspath> e <treespath> DEVEM terminar com / \n')
             print('Exemplo: \n')
