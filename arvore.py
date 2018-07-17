@@ -177,6 +177,7 @@ def get_acuracia(conjunto, modelo):
 
     n_elementos = len(conjunto)
     pct_acertos = acertos / n_elementos
+    print('{0} - {1}'.format(n_elementos, acertos))
     return pct_acertos
 
 

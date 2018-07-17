@@ -16,6 +16,7 @@ Usado, principalmente, para o PlayTennis
 
 # Módulos necessários
 from treinaModelo import treina
+from imprime import imprime_arvore, imprime
 
 import sys, getopt
 
@@ -53,6 +54,9 @@ def main(argv):
         arvore_gerada=outputfile+'.json'
     )
 
+    imprime_arvore(raiz)
+    print('\n\n')
+    print(imprime(raiz, ''))
 
 if(__name__ == '__main__'):
     main(sys.argv[1:])

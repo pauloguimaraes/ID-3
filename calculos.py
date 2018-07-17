@@ -79,6 +79,7 @@ def ganho(conjunto, atributo, rotulo):
         key=lambda x: x[1],
         reverse=True
     )
+    # print(ganhos_ordenados)
 
     # Calcula o ganho
     ganho_para_atributo = 0
@@ -88,9 +89,10 @@ def ganho(conjunto, atributo, rotulo):
             rotulo=rotulo
         )
         p = int(item[1]) / tamanho_do_conjunto
-        ganho_para_atributo = ganho_para_atributo + (p * entropia_do_subconjunto)
+        ganho_para_atributo = ganho_para_atributo - (p * entropia_do_subconjunto)
     
-    ganho_para_atributo = entropia(conjunto=conjunto, rotulo=atributo) - ganho_para_atributo
+    ganho_para_atributo = entropia(conjunto=conjunto, rotulo=atributo) + ganho_para_atributo
+    # print('{0} é o ganho para {1}'.format(ganho_para_atributo, atributo))
     return ganho_para_atributo
 
 

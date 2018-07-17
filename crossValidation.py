@@ -15,7 +15,7 @@ Módulo com métodos responsáveis por executar a validação K-Fold Cross-Valid
 
 
 # Módulos necessários
-from arvore import get_acuracia, get_classe_majoritaria, get_erro, get_raiz_do_conjunto, monta_arvore
+from arvore import get_acuracia, get_classe_majoritaria, get_erro, get_numero_de_nos, get_raiz_do_conjunto, monta_arvore
 from manipulacaoArquivos import write_arvore_no_arquivo, write_conjunto_no_arquivo
 from preProcessamento import trata_conjunto
 from sklearn.utils import shuffle
@@ -113,7 +113,7 @@ def cross_validation(arquivo_entrada, numero_de_folds=10, deve_gerar_arquivos=Tr
         )
         erro = erro + erro_deste_teste
 
-        print('Erro na {0}a interação: {1}'.format(x + 1, erro_deste_teste))
+        print('Erro na {0}a interação: {1} - {2}'.format(x + 1, erro_deste_teste, get_numero_de_nos(raiz)))
 
         x = x + 1
 
