@@ -16,7 +16,8 @@ Usado, principalmente, para o PlayTennis
 
 # Módulos necessários
 from treinaModelo import treina
-from imprime import imprime_arvore, imprime
+from imprime import imprime_arvore, imprime, processa_impressao
+import pandas as pd
 
 import sys, getopt
 
@@ -49,14 +50,18 @@ def main(argv):
             outputfile = arg
 
     # Treina a árvore, salvando no arquivo de saída
+    conjunto = pd.read_csv(inputfile)
     raiz = treina(
         arquivo_entrada=inputfile,
         arvore_gerada=outputfile+'.json'
     )
-
-    imprime_arvore(raiz)
-    print('\n\n')
-    print(imprime(raiz, ''))
+    print('treinou')
+    # dicionario = dict()
+    # imprime_arvore(raiz, dicionario, conjunto)
+    # print(processa_impressao(dicionario))
+    # print(dicionario)
+    # print('\n\n')
+    # print(imprime(raiz, '').replace('IF ', '').replace(' THEN \n', ''))
 
 if(__name__ == '__main__'):
     main(sys.argv[1:])
