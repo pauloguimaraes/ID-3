@@ -6,7 +6,7 @@ Autores:
 Lucas Borelli Amaral                9360951
 Paulo Henrique Freitas Guimarães    9390361
 Silas Rocha Pereira                 9424079
-Victor Taendy Sousa                 8921421
+Victor Taendy Sousa Emerenciano     8921421
 
 Módulo com métodos relacionados à poda (Reduced-Error Prunning)
 """
