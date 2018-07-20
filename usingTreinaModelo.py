@@ -40,6 +40,9 @@ def main(argv):
     for opt, arg in opts:
         if(opt == '-h'):
             print('usingTreinaModelo.py -i <inputfile> -o <outputfile>')
+            print('O parâmetro <inputfile> DEVE ser um arquivo CSV. O parâmetro <outputfile> NÃO deve ter extensão.\n')
+            print('Exemplo: \n')
+            print('usingTreinaModelo.py -i \'./play_tennis/conjuntos/play_tennis.csv\' -o \'./play_tennis/arvores/gerada\'')
             sys.exit()
 
         elif(opt in ('-i', '--ifile')):

@@ -113,7 +113,7 @@ def main(argv):
         classe_majoritaria=major_class,
         arquivo_saida_treinamento=filetreinamento,
         arquivo_saida_testes=fileteste,
-        deve_testar_enquanto_monta=False
+        deve_testar_enquanto_monta=True
     )
 
     raiz = get_raiz_da_arvore(raiz)
