@@ -16,7 +16,8 @@ Execução da pós-poda em uma árvore gerada
 # Módulos necessários
 from arvore import get_classe_majoritaria, get_raiz_da_arvore, get_raiz_do_conjunto, monta_arvore
 from datetime import datetime
-from manipulacaoArquivos import write_arvore_no_arquivo, write_conjunto_no_arquivo
+from imprime import get_dicionario_de_regras, processa_impressao
+from manipulacaoArquivos import write_arvore_no_arquivo, write_conjunto_no_arquivo, write_regras
 from poda import efetua_poda
 from treinaModelo import quebrar_conjunto
 
@@ -35,20 +36,21 @@ def main(argv):
     pastaconjunto = ''
     filevalidacao = ''
     fileteste = ''
+    outputfile = ''
 
     try:
-        opts, args = getopt.getopt(argv, 'hi:t:d:v:e:', ['ifile=', 'tpath=', 'dpath=', 'vfile=', 'efile='])
+        opts, args = getopt.getopt(argv, 'hi:t:d:v:e:o:', ['ifile=', 'tpath=', 'dpath=', 'vfile=', 'efile=', 'ofile='])
 
     except getopt.GetoptError:
-        print('usingGeraGrafico.py -i <inputfile> -t <treespath> -d <datasetspath> -v <validationfile> -e <testfile>')
+        print('usingPoda.py -i <inputfile> -t <treespath> -d <datasetspath> -v <validationfile> -e <testfile> -o <rulesfile>')
         sys.exit(2)
 
     for opt, arg in opts:
         if(opt == '-h'):
-            print('usingGeraGrafico.py -i <inputfile> -t <treespath> -d <datasetspath> -v <validationfile> -e <testfile>\n')
-            print('Os parâmetros <inputfile>, <validationfile> e <testfile> DEVEM ser arquivos CSV. Os parâmetros <treespath> e <datasetspath> DEVEM terminar com /\n')
+            print('usingPoda.py -i <inputfile> -t <treespath> -d <datasetspath> -v <validationfile> -e <testfile> -o <rulesfile>\n')
+            print('Os parâmetros <inputfile>, <validationfile> e <testfile> DEVEM ser arquivos CSV, já o parâmetro <rulesfile> DEVE ser um TXT. Os parâmetros <treespath> e <datasetspath> DEVEM terminar com /\n')
             print('Exemplo: \n')
-            print('usingGeraGrafico.py -i \'./files/grafico/datasets/adult.csv\' -t \'./files/grafico/trees/\' -d \'./files/grafico/datasets/\' -v \'./files/grafico/output/validacao_saida.csv\' -e \'./files/grafico/output/teste_saida.csv\'')
+            print('usingPoda.py -i \'./poda/conjuntos/adult.csv\' -t \'./poda/arvores/\' -d \'./poda/conjuntos/\' -v \'./poda/saidas/validacao_saida.csv\' -e \'./poda/saidas/teste_saida.csv\' -o \'./poda/saidas/regras_pos_poda.txt\'')
             sys.exit()
         
         elif(opt in ('-i', '--ifile')):
@@ -60,11 +62,14 @@ def main(argv):
         elif(opt in ('-d', '--dpath')):
             pastaconjunto = arg
 
-        elif(opt in ('-n', '--nfile')):
+        elif(opt in ('-v', '--vfile')):
             filevalidacao = arg
         
         elif(opt in ('-e', '--efile')):
             fileteste = arg
+
+        elif(opt in ('-o', '--ofile')):
+            outputfile = arg
         
     
     # Quebra o conjunto em TREINAMENTO, VALIDAÇÃO e TESTES
@@ -142,6 +147,19 @@ def main(argv):
     )
 
     print('Fim da poda: {0}'.format(datetime.now()))
+
+
+    print('Início da formulação das regras: {0}'.format(datetime.now()))
+
+    raiz = get_raiz_da_arvore(no=raiz)
+    
+    dicionario = dict()
+    get_dicionario_de_regras(raiz, dicionario, validacao)
+
+    s = processa_impressao(dicionario)
+    write_regras(outputfile, s)
+
+    print('Fim da formulação das regras: {0}'.format(datetime.now()))
 
 
 
