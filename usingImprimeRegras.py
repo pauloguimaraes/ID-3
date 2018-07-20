@@ -8,16 +8,17 @@ Paulo Henrique Freitas Guimaraes    9390361
 Silas Rocha Pereira da Silva        9424079
 Victor Taendy Sousa Emerenciano     8921412
 
-Execução da pós-poda em uma árvore gerada
+Execução do treinamento de um modelo e impressão de suas regras (IF-THEN)
 """
 
 
 
 # Módulos necessários
 from arvore import get_classe_majoritaria, get_raiz_da_arvore, get_raiz_do_conjunto, monta_arvore
-from treinaModelo import quebrar_conjunto
+from datetime import datetime
 from imprime import get_dicionario_de_regras, processa_impressao
 from manipulacaoArquivos import write_regras
+from treinaModelo import quebrar_conjunto
 
 import sys, getopt
 
@@ -35,12 +36,15 @@ def main(argv):
         opts, args = getopt.getopt(argv, 'hi:o:', ['ifile=', 'ofile='])
 
     except getopt.GetoptError:
-        print('usingTreinaModelo.py -i <inputfile> -o <outputfile>')
+        print('usingImprimeRegras.py -i <inputfile> -o <outputfile>')
         sys.exit(2)
 
     for opt, arg in opts:
         if(opt == '-h'):
-            print('usingTreinaModelo.py -i <inputfile> -o <outputfile>')
+            print('usingImprimeRegras.py -i <inputfile> -o <outputfile>')
+            print('O parâmetro <inputfile> DEVE ser um arquivo CSV. O parâmetro <outputfile> DEVE ser um arquivo TXT.\n')
+            print('Exemplo: \n')
+            print('usingImprimeRegras.py -i \'./imprime-regras/conjuntos/adult.csv\' -o \'./imprime-regras/saidas/regras.txt\'')
             sys.exit()
 
         elif(opt in ('-i', '--ifile')):
@@ -49,9 +53,18 @@ def main(argv):
         elif(opt in ('-o', '--ofile')):
             outputfile = arg
 
+
+    # Quebra o conjunto em TREINAMENTO, VALIDAÇÃO e TESTES
+    print('Início da divisão do conjunto: {0}'.format(datetime.now()))
+
     treinamento, validacao, teste = quebrar_conjunto(
         arquivo_entrada=inputfile
     )
+
+    print('Fim da divisão do conjunto: {0}'.format(datetime.now()))
+
+    # Monta a árvore
+    print('Início da montagem da árvore: {0}'.format(datetime.now()))
 
     raiz = get_raiz_do_conjunto(
         conjunto=treinamento
@@ -72,6 +85,11 @@ def main(argv):
         deve_testar_enquanto_monta=False
     )
 
+    print('Fim da montagem da árvore: {0}'.format(datetime.now()))
+
+    # Imprime as regras
+    print('Início da impressão das regras: {0}'.format(datetime.now()))
+
     raiz = get_raiz_da_arvore(no=raiz)
     
     dicionario = dict()
@@ -79,6 +97,8 @@ def main(argv):
 
     s = processa_impressao(dicionario)
     write_regras(outputfile, s)
+
+    print('Fim da impressão das regras: {0}'.format(datetime.now()))
 
 
 
