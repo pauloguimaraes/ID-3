@@ -15,9 +15,9 @@ Execução da pós-poda em uma árvore gerada
 
 # Módulos necessários
 from arvore import get_classe_majoritaria, get_raiz_da_arvore, get_raiz_do_conjunto, monta_arvore
-from datetime import datetime
 from treinaModelo import quebrar_conjunto
-from imprime import imprime_arvore, processa_impressao
+from imprime import get_dicionario_de_regras, processa_impressao
+from manipulacaoArquivos import write_regras
 
 import sys, getopt
 
@@ -48,19 +48,10 @@ def main(argv):
         
         elif(opt in ('-o', '--ofile')):
             outputfile = arg
-    # # Quebra o conjunto em TREINAMENTO, VALIDAÇÃO e TESTES
-    # # Salva em arquivos na pasta designada
-    # print('Início da divisão do conjunto: {0}'.format(datetime.now()))
 
     treinamento, validacao, teste = quebrar_conjunto(
         arquivo_entrada=inputfile
     )
-
-    # print('Fim da divisão do conjunto: {0}'.format(datetime.now()))
-
-
-    # # Monta a árvore
-    # print('Início da montagem da árvore: {0}'.format(datetime.now()))
 
     raiz = get_raiz_do_conjunto(
         conjunto=treinamento
@@ -84,9 +75,10 @@ def main(argv):
     raiz = get_raiz_da_arvore(no=raiz)
     
     dicionario = dict()
-    imprime_arvore(raiz, dicionario, validacao)
-    print(processa_impressao(dicionario))
-    # print('Fim da poda: {0}'.format(datetime.now()))
+    get_dicionario_de_regras(raiz, dicionario, validacao)
+
+    s = processa_impressao(dicionario)
+    write_regras(outputfile, s)
 
 
 

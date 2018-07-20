@@ -1,13 +1,38 @@
+"""
+Exercicio de Programacao de Inteligencia Artificial
+Professora Doutora Patricia Rufino Oliveira
 
-def imprime_arvore(raiz, dic, conjunto):
+Autores:
+Lucas Borelli Amaral                9360951
+Paulo Henrique Freitas Guimaraes    9390361
+Silas Rocha Pereira da Silva        9424079
+Victor Taendy Sousa Emerenciano     8921412
+
+Impressão da árvore como um conjunto de regras
+"""
+
+
+
+def get_dicionario_de_regras(raiz, dic, conjunto):
+    """
+    Preenche o @dic com as regras de cada nó folha da @raiz, usando o @conjunto para definir a cobertura
+    """
+
+    # Preenche todas as folhas
     for filho in raiz.children:
+
+        # Se não for folha chama recursivamente para o filho
         if(not filho.is_leaf):
-            imprime_arvore(filho, dic, conjunto)
+            get_dicionario_de_regras(filho, dic, conjunto)
+
+        # Senão, manipula a estrutura do Anytree para preencher como regras
         else:
             regras = get_regras(filho).replace(') THEN', ' ;').replace('IF (', '').strip()
             conj_regras = regras.split(' AND ')
 
             conj_tmp = conjunto
+
+            # Separa as igualdades de forma a conseguir uma chave (atributo) e valor
             for regra in conj_regras:
                 attVal = regra.split(' == ')
                 att = attVal[0]
@@ -18,7 +43,11 @@ def imprime_arvore(raiz, dic, conjunto):
             dic[regras] = len(conj_tmp)
 
 
+
 def processa_impressao(dicionario):
+    """
+    Processa o @dicionario de forma a montar uma string com as regras
+    """
     sort = sorted(
         dicionario.items(),
         key=lambda x: x[1],
@@ -53,10 +82,14 @@ def processa_impressao(dicionario):
             string = string + ' OR \n('
 
     string = string + '\n THEN >50K'
-    # print(string)
     return string
 
+
+
 def get_regras(no):
+    """
+    Recupera a regra do @no em formato legível
+    """
     string = 'IF ({0}'.format(str(no.path[0].name).replace('/', ''))
 
     i = 0
@@ -69,28 +102,3 @@ def get_regras(no):
             string = string + ' AND {0}'.format(n.name)
 
     return string
-
-# # def imprime(no, string_atual):
-# #     # print(len(no.anchestors))
-# #     # i_tmp = len(no.anchestors)-1
-
-# #     # while(i_tmp > 0):
-# #     #     i_tmp = i_tmp - 1
-# #     #     string_atual = string_atual + '\t'
-
-# #     for filho in no.children:
-# #         i = len(no.anchestors)
-# #         while(i > 0):
-# #             i = i - 1
-# #             string_atual = string_atual + '\t'
-
-# #         string_atual = string_atual + 'IF {0} == {1} THEN '.format(no.name, filho.attribute)
-
-# #         if(filho.is_leaf):
-# #             string_atual = string_atual + filho.classe_major
-# #         string_atual = string_atual + '\n'
-
-# #         string_atual = imprime(filho, string_atual)
-        
-
-# #     return string_atual

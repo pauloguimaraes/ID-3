@@ -46,3 +46,12 @@ def write_saida(acuracia, arquivo, numero_nos):
         obj_file.write('{0}, {1}'.format(acuracia, numero_nos) + '\n')
 
 
+
+def write_regras(arquivo, string_de_regras):
+    """
+    Escreve a @string_de_regras no @arquivo no formato TXT
+    """
+    with open(arquivo, 'w') as obj_file:
+        obj_file.write(string_de_regras)
+
+
