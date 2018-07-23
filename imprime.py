@@ -75,11 +75,11 @@ def processa_impressao(dicionario):
 
     i = 0
     for chave in dic_no:
-        string = string + '({0} [Cobertura: {1}])'.format(chave.replace('; >50K', '').strip(), dic_no[chave])
+        string = string + '{0} [Cobertura: {1}])'.format(chave.replace('; >50K', '').strip(), dic_no[chave])
 
         i = i + 1
         if(i < len(dic_no)):
-            string = string + ' OR \n('
+            string = string + ' OR \n\t('
 
     string = string + '\n THEN >50K'
     return string
