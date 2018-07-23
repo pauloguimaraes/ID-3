@@ -58,7 +58,7 @@ def poda(no, validacao, classe_majoritaria):
 
 
 
-def get_erros_para_a_arvore(raiz, validacao, testes, erros=dict(), novas_classes_majoritarias=dict()):
+def get_erros_para_a_arvore(raiz, validacao, erros=dict(), novas_classes_majoritarias=dict()):
     """
     Recupera conjuntos de @erros e @novas_classes_majoritarias para os nós removidos.
 
@@ -98,7 +98,6 @@ def get_erros_para_a_arvore(raiz, validacao, testes, erros=dict(), novas_classes
             get_erros_para_a_arvore(
                 raiz=filho,
                 validacao=validacao,
-                testes=testes,
                 erros=erros,
                 novas_classes_majoritarias=novas_classes_majoritarias
             )
@@ -142,7 +141,6 @@ def efetua_poda(raiz, validacao, testes, deve_escrever_arquivo=True, saida_teste
         get_erros_para_a_arvore(
             raiz=raiz,
             validacao=validacao,
-            testes=testes,
             erros=erros,
             novas_classes_majoritarias=novas_classes_majoritarias
         )
